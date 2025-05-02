@@ -24,8 +24,34 @@ public class AfterReturningAdviceApplication {
 
             //demoAfterAdvice(accountDAO);
 
-            demoAroundAdvice(trafficFortuneService);
+            //demoAroundAdvice(trafficFortuneService);
+
+            //demoAroundAdviceHnadleexception(trafficFortuneService);
+
+            //demoAroundRethrowException(trafficFortuneService);
         };
+    }
+
+    private void demoAroundRethrowException(TrafficFortuneService trafficFortuneService) {
+        System.out.println("-----main programme demo advice re throw exception----");
+        System.out.println("calling fortune ()");
+
+        boolean triWire=true;
+        String fortune = trafficFortuneService.getFortune(triWire);
+
+
+        System.out.println(fortune);
+    }
+
+    private void demoAroundAdviceHnadleexception(TrafficFortuneService trafficFortuneService) {
+        System.out.println("main programme demo advice handle exception");
+        System.out.println("calling fortune ()");
+
+        boolean triWire=true;
+        String fortune = trafficFortuneService.getFortune(triWire);
+
+
+        System.out.println(fortune);
     }
 
     private void demoAroundAdvice(TrafficFortuneService trafficFortuneService) {
@@ -34,6 +60,7 @@ public class AfterReturningAdviceApplication {
         System.out.println("calling fortune ()");
         String fortune = trafficFortuneService.getFortune();
         System.out.println(fortune);
+        System.out.println("finished fortune ()");
     }
 
     private void demoAfterAdvice(AccountDAO accountDAO) {

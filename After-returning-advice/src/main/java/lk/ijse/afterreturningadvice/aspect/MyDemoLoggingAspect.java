@@ -16,6 +16,12 @@ public class MyDemoLoggingAspect {
 
 
 
+
+
+
+
+
+
     //add around advice
     @Around("execution(* lk.ijse.afterreturningadvice.service.*.getFortune(..))")
     public Object aroundGetFortune(ProceedingJoinPoint proceedingJoinPoint)throws Throwable{
@@ -23,10 +29,24 @@ public class MyDemoLoggingAspect {
         String shortString = proceedingJoinPoint.getSignature().toShortString();
         System.out.println("aroundGetFortune()"+shortString);
         //get begin timestamp
-        long begin = System.currentTimeMillis();
+        //long begin = System.currentTimeMillis();
+        long begin=System.nanoTime();
 
         //execute method
-        Object result = proceedingJoinPoint.proceed();
+        Object result = null;
+        try{
+            result=proceedingJoinPoint.proceed();
+        }catch (Exception e){
+
+
+            System.out.println("aroundGetFortune()"+e.getMessage());
+           // System.out.println("major accident ! but no worries");
+            //rethrow exception
+            throw e;
+
+        }
+
+
         //getend timestamp
         long end = System.currentTimeMillis();
         //compute duration
