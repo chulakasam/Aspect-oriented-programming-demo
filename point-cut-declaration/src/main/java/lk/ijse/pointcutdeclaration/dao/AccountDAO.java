@@ -9,4 +9,11 @@ public interface AccountDAO {
     void addAccount(Account account,Boolean vipFlag);
 
     boolean doWork();
+     String getName();
+     void setName(String name);
+
+    String getServiceCode();
+
+    void setServiceCode(String serviceCode);
+
 }

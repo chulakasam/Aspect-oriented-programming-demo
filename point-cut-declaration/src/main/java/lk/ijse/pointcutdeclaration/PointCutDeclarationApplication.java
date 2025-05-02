@@ -26,6 +26,14 @@ public class PointCutDeclarationApplication {
         accountDAO.addAccount(myAccount,true);
         accountDAO.doWork();
 
+        //call account getter/setter methods
+        accountDAO.setName("myAccount");
+        accountDAO.setServiceCode("myServiceCode");
+
+        String name = accountDAO.getName();
+        String serviceCode = accountDAO.getServiceCode();
+
+
         memberShipDAO.addAccount();
         memberShipDAO.goToSleep();
     }
