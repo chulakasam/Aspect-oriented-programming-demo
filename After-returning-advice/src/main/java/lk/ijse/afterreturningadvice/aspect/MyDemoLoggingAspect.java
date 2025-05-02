@@ -26,8 +26,21 @@ public class MyDemoLoggingAspect {
         System.out.println("executing methods :"+method);
         System.out.println("results are :"+result);
 
+        //let's modify data
+        System.out.println("modifying data ------");
+        List<Account> result1 = convertAccountNameUpperCase(result);
+        System.out.println("Upper names are :"+result1);
+
+
     }
 
+    private List<Account> convertAccountNameUpperCase(List<Account> result) {
+        for (Account account : result) {
+            String upperCase = account.getName().toUpperCase();
+            account.setName(upperCase);
+        }
+        return result;
+    }
 
 
     //02.  apply pointcut declaration to advice
