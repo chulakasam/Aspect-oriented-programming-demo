@@ -1,9 +1,8 @@
 package lk.ijse.afterreturningadvice.aspect;
 import lk.ijse.afterreturningadvice.Account;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -14,6 +13,45 @@ import java.util.List;
 @Component
 @Order(1)
 public class MyDemoLoggingAspect {
+
+
+
+    //add around advice
+    @Around("execution(* lk.ijse.afterreturningadvice.service.*.getFortune(..))")
+    public Object aroundGetFortune(ProceedingJoinPoint proceedingJoinPoint)throws Throwable{
+                //print method advicing
+        String shortString = proceedingJoinPoint.getSignature().toShortString();
+        System.out.println("aroundGetFortune()"+shortString);
+        //get begin timestamp
+        long begin = System.currentTimeMillis();
+
+        //execute method
+        Object result = proceedingJoinPoint.proceed();
+        //getend timestamp
+        long end = System.currentTimeMillis();
+        //compute duration
+        long time = end - begin;
+        System.out.println("aroundGetFortune duration ()"+time/1000.0+" seconds");
+        return result;
+    }
+
+
+
+
+
+    //add after final advice
+    @After("execution(* lk.ijse.afterreturningadvice.dao.AccountDAO.findAccount(..))")
+    public void afterFinally(JoinPoint joinPoint) {
+        System.out.println("===========> after Finally ...."+joinPoint.getSignature().getName());
+
+    }
+
+
+
+
+
+
+
     //add a new advice for @AfterReturning
     @AfterReturning(
                     pointcut = "execution(* lk.ijse.afterreturningadvice.dao.AccountDAO.findAccount(..))",
@@ -33,6 +71,30 @@ public class MyDemoLoggingAspect {
 
 
     }
+
+
+
+    @AfterThrowing(
+            pointcut ="execution(* lk.ijse.afterreturningadvice.dao.AccountDAO.findAccount(..))" ,
+            throwing = "theExc"
+    )
+    public void afterThrowing(JoinPoint joinPoint, Throwable theExc) {
+        //print method advising
+        System.out.println("executing @AfterThrowing methods :"+joinPoint.getSignature().toShortString());
+        // log exception
+        System.out.println("the exception  :"+theExc);
+
+    }
+
+
+
+
+
+
+
+
+
+
 
     private List<Account> convertAccountNameUpperCase(List<Account> result) {
         for (Account account : result) {
